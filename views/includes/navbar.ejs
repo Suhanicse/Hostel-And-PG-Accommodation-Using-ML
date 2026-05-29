@@ -1,0 +1,89 @@
+<%# navbar.ejs — sticky glassmorphism navbar %>
+
+<nav class="navbar navbar-expand-md" id="mainNav">
+  <div class="container-fluid px-4">
+
+    <!-- Brand -->
+    <a class="navbar-brand" href="/listings">
+      <div class="brand-logo">
+        <i class="fa-solid fa-bed"></i>
+      </div>
+      <span class="brand-text">Homelyt</span>
+    </a>
+
+    <!-- Mobile toggler -->
+    <button
+      class="navbar-toggler border-0 shadow-none"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarNav"
+      aria-controls="navbarNav"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+
+      <!-- Search (center) -->
+      <div class="mx-auto my-2 my-md-0">
+        <form class="nav-search-form" action="/listings/search" method="GET">
+          <i class="fa-solid fa-magnifying-glass" style="color:var(--ink-xsoft); font-size:0.8rem;"></i>
+          <input name="location" type="search" placeholder="Search by city or area…" autocomplete="off"/>
+          <button class="nav-search-btn" type="submit">
+            <i class="fa-solid fa-arrow-right"></i> Search
+          </button>
+        </form>
+      </div>
+
+      <!-- Right links -->
+      <div class="navbar-nav d-flex flex-row align-items-center gap-2 ms-md-3 flex-wrap">
+        <a class="nav-link" href="/listings">
+          <i class="fa-solid fa-compass me-1" style="color:var(--brand);font-size:0.75rem;"></i>Explore
+        </a>
+        <% if(currUser && (currUser.role === "owner" || currUser.role === "admin")) { %>
+           <a class="nav-link" href="/listings/new">
+              <i class="fa-solid fa-plus me-1" style="font-size:0.75rem;"></i>Add PG
+           </a>
+        <% } %>
+
+        <% if(!currUser) { %>
+          <a href="/signup" class="btn btn-auth-outline ms-1">Sign up</a>
+          <a href="/login" class="btn btn-auth-fill">Log in</a>
+        <% } else { %>
+          <div class="d-flex align-items-center gap-2">
+            <div style="
+              width: 36px; height: 36px;
+              background: linear-gradient(135deg, var(--brand), var(--gold));
+              border-radius: 50%;
+              display: flex; align-items: center; justify-content: center;
+              color: white;
+              font-family: 'Syne', sans-serif;
+              font-weight: 800;
+              font-size: 0.9rem;
+              box-shadow: 0 2px 8px rgba(232,87,42,0.35);
+            ">
+              <%= currUser.username.charAt(0).toUpperCase() %>
+            </div>
+            <span style="font-size:0.82rem; font-weight:500; color:var(--ink-mid);">
+              <%= currUser.username %>
+            </span>
+            <a href="/logout" class="btn btn-auth-outline">
+              <i class="fa-solid fa-arrow-right-from-bracket me-1" style="font-size:0.75rem;"></i>Logout
+            </a>
+          </div>
+        <% } %>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<script>
+  const nav = document.getElementById('mainNav');
+  if (nav) {
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 20);
+    });
+  }
+</script>

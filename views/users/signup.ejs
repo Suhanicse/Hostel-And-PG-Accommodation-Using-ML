@@ -1,0 +1,105 @@
+<% layout("/layouts/boilerplate.ejs") %>
+
+<div class="container px-4" style="min-height:80vh; display:flex; align-items:center; justify-content:center; padding-top:40px; padding-bottom:40px;">
+  <div class="auth-card w-100">
+
+  <div class="auth-logo">
+    <i class="fa-solid fa-bed"></i>
+  </div>
+
+    <h1 class="auth-title">Join Homelyt</h1>
+    <p class="auth-subtitle">Create an account to list or discover PG accommodations</p>
+
+    <form action="/signup" method="POST" class="needs-validation" novalidate>
+      <div class="mb-3">
+        <label for="username" class="form-label">Username</label>
+        <input
+          name="username"
+          id="username"
+          type="text"
+          class="form-control"
+          placeholder="Choose a username"
+          required
+          autocomplete="username"
+        />
+        <div class="valid-feedback">Username looks good!</div>
+        <div class="invalid-feedback">Please choose a username.</div>
+      </div>
+
+      <div class="mb-3">
+        <label for="email" class="form-label">Email Address</label>
+        <input
+          name="email"
+          id="email"
+          type="email"
+          class="form-control"
+          placeholder="you@example.com"
+          required
+          autocomplete="email"
+        />
+        <div class="invalid-feedback">Please enter a valid email address.</div>
+      </div>
+
+      <div class="mb-4">
+        <label for="password" class="form-label">Password</label>
+        <div style="position:relative;">
+          <input
+            name="password"
+            id="password"
+            type="password"
+            class="form-control"
+            placeholder="Create a strong password (min. 6 chars)"
+            required
+            minlength="6"
+            autocomplete="new-password"
+            style="padding-right:46px !important;"
+          />
+          <button
+            type="button"
+            onclick="togglePwd('password', this)"
+            style="position:absolute; right:14px; top:50%; transform:translateY(-50%); background:none; border:none; color:var(--ink-soft); cursor:pointer; font-size:0.85rem;"
+            tabindex="-1"
+          >
+            <i class="fa-regular fa-eye"></i>
+          </button>
+        </div>
+        <div class="invalid-feedback">Password must be at least 6 characters.</div>
+      </div>
+
+      <select name="role" class="form-control">
+        <option value="user">User</option>
+        <option value="owner">Owner</option>
+      </select>
+
+      <div style="font-size:0.78rem; color:var(--ink-soft); margin-bottom:22px; text-align:center; line-height:1.65;">
+        By signing up, you agree to our
+        <a href="/terms" style="color:var(--brand); font-weight:600;">Terms of Service</a>
+        and
+        <a href="/privacy" style="color:var(--brand); font-weight:600;">Privacy Policy</a>.
+      </div>
+
+      <button type="submit" class="btn btn-primary-full">
+        <i class="fa-solid fa-user-plus me-2"></i>Create Account
+      </button>
+
+    </form>
+
+    <div class="auth-divider">or</div>
+
+    <div class="auth-footer">
+      Already have an account?
+      <a href="/login">Log in</a>
+    </div>
+  </div>
+</div>
+
+<script>
+function togglePwd(id, btn) {
+  const inp = document.getElementById(id);
+  const isHidden = inp.type === 'password';
+  inp.type = isHidden ? 'text' : 'password';
+  btn.innerHTML = isHidden
+    ? '<i class="fa-regular fa-eye-slash"></i>'
+    : '<i class="fa-regular fa-eye"></i>';
+}
+</script>

@@ -1,0 +1,353 @@
+<% layout("/layouts/boilerplate.ejs") %>
+
+<div class="container px-4 py-5">
+  <div class="row g-4">
+
+    <!-- ═══ LEFT COLUMN ═══ -->
+    <div class="col-lg-8">
+
+      <!-- Hero Image -->
+      <div class="show-hero">
+        <img src="<%= listing.image.url %>" class="show-img" alt="<%= listing.title %>" />
+        <div class="show-img-overlay">
+          <div class="show-price-pill">
+            <i class="fa-solid fa-indian-rupee-sign"></i>
+            <%= listing.price.toLocaleString("en-IN") %> / month
+          </div>
+          <h1 class="show-title"><%= listing.title %></h1>
+        </div>
+      </div>
+
+      <!-- Description -->
+      <div class="show-detail-card">
+        <div class="d-flex align-items-start justify-content-between mb-3 flex-wrap gap-3">
+          <div>
+            <p class="section-eyebrow" style="margin-bottom:6px;">About this PG</p>
+            <h3 style="font-family:'Instrument Serif',serif; font-size:1.6rem; font-weight:400; color:var(--ink); margin:0; letter-spacing:-0.02em;">Description</h3>
+          </div>
+          <% if(currUser && listing.owner && listing.owner._id.equals(currUser._id)) { %>
+            <div class="d-flex gap-2 flex-wrap">
+              <a href="/listings/<%= listing._id %>/edit" class="btn edit-btn">
+                <i class="fa-solid fa-pen me-2"></i>Edit
+              </a>
+              <form
+                method="POST"
+                action="/listings/<%= listing._id %>?_method=DELETE"
+                onsubmit="return confirm('Are you sure you want to delete this listing?')"
+              >
+                <button class="btn" style="
+                  background: transparent;
+                  border: 1.5px solid var(--cream-3);
+                  border-radius: 50px;
+                  padding: 10px 22px;
+                  font-size: 0.82rem;
+                  font-weight: 500;
+                  color: var(--ink-soft);
+                  transition: all var(--tr);
+                " onmouseover="this.style.borderColor='var(--danger)'; this.style.color='var(--danger)'; this.style.background='var(--danger-bg)';"
+                   onmouseout="this.style.borderColor='var(--cream-3)'; this.style.color='var(--ink-soft)'; this.style.background='transparent';">
+                  <i class="fa-solid fa-trash-can me-2"></i>Delete
+                </button>
+              </form>
+            </div>
+          <% } %>
+        </div>
+        <p class="show-description"><%= listing.description %></p>
+      </div>
+
+      <!-- Map -->
+      <div class="show-detail-card">
+        <h3 class="map-section-title">
+          <i class="fa-solid fa-location-dot"></i>
+          Where You'll Be
+        </h3>
+        <p style="font-size:0.82rem; color:var(--ink-soft); margin-bottom:18px; display:flex; align-items:center; gap:6px;">
+          <i class="fa-solid fa-map-pin" style="color:var(--brand);"></i>
+          <%= listing.location %>, <%= listing.country %>
+        </p>
+        <div id="map" style="height:380px; width:100%; border-radius:14px; overflow:hidden; z-index:0;"></div>
+      </div>
+
+      <!-- Reviews Section -->
+      <div class="show-detail-card">
+        <h3 class="review-section-title">
+          Guest Reviews
+          <% if(listing.reviews.length > 0) { %>
+            <span style="font-family:'DM Sans',sans-serif; font-size:0.85rem; color:var(--ink-soft); font-weight:400; margin-left:8px;">(<%= listing.reviews.length %>)</span>
+          <% } %>
+        </h3>
+
+        <!-- Leave review form (logged in) -->
+        <% if(currUser) { %>
+          <div style="background:var(--cream-2); border-radius:16px; padding:26px; margin-bottom:28px; border:1px solid var(--cream-3);">
+            <p style="font-family:'Syne',sans-serif; font-size:0.68rem; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:var(--ink-mid); margin-bottom:18px;">Leave a Review</p>
+            <form action="/listings/<%= listing.id %>/reviews" method="POST" novalidate class="needs-validation">
+
+              <div class="mb-3">
+                <span class="star-rating-label">Your Rating</span>
+                <fieldset class="starability-slot">
+                  <input type="radio" id="first-rate1" name="review[rating]" value="1" />
+                  <label for="first-rate1" title="Terrible">1 star</label>
+                  <input type="radio" id="first-rate2" name="review[rating]" value="2" />
+                  <label for="first-rate2" title="Not good">2 stars</label>
+                  <input type="radio" id="first-rate3" name="review[rating]" value="3" />
+                  <label for="first-rate3" title="Average">3 stars</label>
+                  <input type="radio" id="first-rate4" name="review[rating]" value="4" />
+                  <label for="first-rate4" title="Very good">4 stars</label>
+                  <input type="radio" id="first-rate5" name="review[rating]" value="5" />
+                  <label for="first-rate5" title="Amazing">5 stars</label>
+                </fieldset>
+              </div>
+
+              <div class="mb-3">
+                <label for="comment" class="form-label">Your Comment</label>
+                <textarea
+                  name="review[comment]"
+                  id="comment"
+                  rows="4"
+                  class="form-control"
+                  placeholder="Share your experience staying here…"
+                  required
+                ></textarea>
+                <div class="invalid-feedback">Please add some comments for your review.</div>
+              </div>
+
+              <button class="btn add-btn" style="padding:10px 28px;">
+                <i class="fa-solid fa-paper-plane me-2"></i>Submit Review
+              </button>
+            </form>
+          </div>
+        <% } else { %>
+          <div style="background:var(--cream-2); border-radius:16px; padding:24px; text-align:center; margin-bottom:28px; border:1px solid var(--cream-3);">
+            <i class="fa-solid fa-lock" style="font-size:1.5rem; color:var(--brand); margin-bottom:12px; display:block;"></i>
+            <p style="color:var(--ink-soft); font-size:0.9rem; margin-bottom:16px;">Log in to leave a review</p>
+            <a href="/login" class="btn btn-auth-fill" style="display:inline-block; padding:10px 28px;">Log In</a>
+          </div>
+        <% } %>
+
+        <!-- All Reviews -->
+        <% if(listing.reviews.length > 0) { %>
+          <div class="d-flex flex-column gap-3">
+            <% for(let review of listing.reviews) { %>
+              <div class="review-card">
+                <div class="d-flex align-items-center justify-content-between mb-1 flex-wrap gap-2">
+                  <div class="d-flex align-items-center gap-3">
+                    <div class="reviewer-avatar">
+                      <%= review.author.username.charAt(0).toUpperCase() %>
+                    </div>
+                    <div>
+                      <div class="reviewer-name"><%= review.author.username %></div>
+                      <p class="starability-result mb-0" data-rating="<%= review.rating %>"></p>
+                    </div>
+                  </div>
+                  <div class="d-flex align-items-center gap-2 flex-wrap">
+                    <!-- Sentiment badge -->
+                    <% if(review.sentiment === "positive") { %>
+                      <span style="background:var(--success-bg); color:var(--success); border-radius:50px; padding:3px 12px; font-size:0.72rem; font-weight:600;">😊 Positive</span>
+                    <% } else if(review.sentiment === "negative") { %>
+                      <span style="background:var(--danger-bg); color:var(--danger); border-radius:50px; padding:3px 12px; font-size:0.72rem; font-weight:600;">😡 Negative</span>
+                    <% } else { %>
+                      <span style="background:var(--cream-2); color:var(--ink-soft); border-radius:50px; padding:3px 12px; font-size:0.72rem; font-weight:600;">😐 Neutral</span>
+                    <% } %>
+
+                    <% if(currUser) { %>
+                      <form method="POST" action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE">
+                        <button class="btn btn-delete-sm">
+                          <i class="fa-solid fa-trash-can me-1"></i>Delete
+                        </button>
+                      </form>
+                    <% } %>
+                  </div>
+                </div>
+                <p class="review-comment"><%= review.comment %></p>
+              </div>
+            <% } %>
+          </div>
+        <% } else { %>
+          <div style="text-align:center; padding:40px 0; color:var(--ink-soft);">
+            <i class="fa-regular fa-star" style="font-size:2.5rem; color:var(--cream-3); display:block; margin-bottom:16px;"></i>
+            <p style="font-size:0.9rem;">No reviews yet. Be the first to review!</p>
+          </div>
+        <% } %>
+      </div>
+
+    </div><!-- /col-lg-8 -->
+
+    <!-- ═══ RIGHT SIDEBAR ═══ -->
+    <div class="col-lg-4">
+      <div style="position:sticky; top:90px; display:flex; flex-direction:column; gap:20px;">
+
+        <!-- Price Card -->
+        <div class="show-detail-card" style="border:1.5px solid rgba(232,87,42,0.2); text-align:center;">
+          <div style="padding:8px 0 6px;">
+            <div style="font-family:'Syne',sans-serif; font-size:2.4rem; font-weight:800; color:var(--ink); letter-spacing:-0.04em; line-height:1;">
+              &#8377;<%= listing.price.toLocaleString("en-IN") %>
+            </div>
+            <div style="color:var(--ink-soft); font-size:0.82rem; margin-bottom:22px;">per month</div>
+          </div>
+          <% if(listing.phone) { %>
+  <a href="tel:<%= listing.phone %>" class="btn btn-primary-full mb-2">
+    <i class="fa-solid fa-phone me-2"></i>Call Owner
+  </a>
+<% } else { %>
+  <button class="btn btn-secondary mb-2" disabled>
+    <i class="fa-solid fa-phone-slash me-2"></i>Number Not Available
+  </button>
+<% } %>
+          <a href="#" class="btn btn-auth-outline mt-1" style="display:block; text-align:center; border-radius:50px; padding:12px 28px; font-size:0.88rem; font-weight:500;">
+            <i class="fa-regular fa-calendar me-2"></i>Schedule a Visit
+          </a>
+        </div>
+
+        <!-- Property Details -->
+        <div class="show-detail-card">
+          <p class="section-eyebrow" style="margin-bottom:18px;">Property Details</p>
+          <div class="show-meta-list">
+            <div class="show-meta-item">
+              <div class="show-meta-icon"><i class="fa-solid fa-user"></i></div>
+              <div>
+                <div class="show-meta-label">Owner</div>
+                <div class="show-meta-value"><%= listing.owner ? listing.owner.username : "Unknown" %></div>
+              </div>
+            </div>
+            <div class="show-meta-item">
+              <div class="show-meta-icon"><i class="fa-solid fa-location-dot"></i></div>
+              <div>
+                <div class="show-meta-label">Location</div>
+                <div class="show-meta-value"><%= listing.location %></div>
+              </div>
+            </div>
+            <div class="show-meta-item">
+              <div class="show-meta-icon"><i class="fa-solid fa-globe"></i></div>
+              <div>
+                <div class="show-meta-label">Country</div>
+                <div class="show-meta-value"><%= listing.country %></div>
+              </div>
+            </div>
+            <div class="show-meta-item">
+              <div class="show-meta-icon"><i class="fa-solid fa-star"></i></div>
+              <div>
+                <div class="show-meta-label">Reviews</div>
+                <div class="show-meta-value"><%= listing.reviews.length %> review<%= listing.reviews.length !== 1 ? 's' : '' %></div>
+              </div>
+            </div>
+            <div class="show-meta-item">
+              <div class="show-meta-icon"><i class="fa-solid fa-shield-halved"></i></div>
+              <div>
+                <div class="show-meta-label">Status</div>
+                <div class="show-meta-value" style="color:var(--success); font-weight:600;">
+                  <i class="fa-solid fa-circle" style="font-size:0.45rem; margin-right:6px; vertical-align:middle;"></i>Verified
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Amenities -->
+        <div class="show-detail-card">
+          <p class="section-eyebrow" style="margin-bottom:16px;">Common Amenities</p>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+            <% const amenities = [
+              {icon:'fa-wifi', label:'WiFi'},
+              {icon:'fa-utensils', label:'Meals'},
+              {icon:'fa-snowflake', label:'AC'},
+              {icon:'fa-shirt', label:'Laundry'},
+              {icon:'fa-video', label:'CCTV'},
+              {icon:'fa-clock', label:'24/7 Access'},
+            ]; %>
+            <% for(let a of amenities) { %>
+              <div style="display:flex; align-items:center; gap:9px; background:var(--cream-2); border-radius:11px; padding:11px 14px; font-size:0.8rem; color:var(--ink-mid); border:1px solid var(--cream-3);">
+                <i class="fa-solid <%= a.icon %>" style="color:var(--brand); width:14px; font-size:0.82rem;"></i>
+                <%= a.label %>
+              </div>
+            <% } %>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Map Script -->
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var listingData = <%- JSON.stringify(listing) %>;
+
+    if (
+      !listingData.geometry ||
+      !listingData.geometry.coordinates ||
+      (listingData.geometry.coordinates[0] === 0 && listingData.geometry.coordinates[1] === 0)
+    ) {
+      document.getElementById('map').innerHTML =
+        '<div style="height:100%;display:flex;align-items:center;justify-content:center;background:var(--cream-2);border-radius:14px;color:var(--ink-soft);font-size:0.88rem;gap:8px;">' +
+        '<i class="fa-solid fa-map-location-dot" style="color:var(--brand);"></i>Map not available for this location</div>';
+      return;
+    }
+
+    var lon = listingData.geometry.coordinates[0];
+    var lat = listingData.geometry.coordinates[1];
+
+    var map = L.map('map', {
+      center: [lat, lon],
+      zoom: 13,
+      scrollWheelZoom: false
+    });
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    var customIcon = L.divIcon({
+      className: '',
+      html: '<div style="width:36px;height:36px;background:#E8572A;border-radius:50% 50% 50% 0;transform:rotate(-45deg);border:3px solid #ffffff;box-shadow:0 4px 16px rgba(232,87,42,0.45);"></div>',
+      iconSize: [36, 36],
+      iconAnchor: [18, 36],
+      popupAnchor: [0, -40]
+    });
+
+    L.marker([lat, lon], { icon: customIcon })
+      .addTo(map)
+      .bindPopup(
+        '<div style="font-family:\'DM Sans\',sans-serif;padding:6px 2px;min-width:160px;">' +
+          '<strong style="font-size:0.9rem;color:#0F0A04;">' + listingData.title + '</strong><br/>' +
+          '<span style="font-size:0.78rem;color:#8B7060;">' + listingData.location + ', ' + listingData.country + '</span><br/>' +
+          '<strong style="color:#E8572A;font-size:0.95rem;">&#8377;' + listingData.price.toLocaleString('en-IN') + '/mo</strong>' +
+        '</div>',
+        { maxWidth: 220 }
+      )
+      .openPopup();
+
+    setTimeout(function () { map.invalidateSize(); }, 300);
+  });
+
+  
+function callOwner(phone) {
+  if (!phone) {
+    alert("Owner number not available");
+    return;
+  }
+
+  const popup = document.createElement("div");
+  popup.innerText = "Calling " + phone;
+  popup.style.position = "fixed";
+  popup.style.bottom = "20px";
+  popup.style.left = "50%";
+  popup.style.transform = "translateX(-50%)";
+  popup.style.background = "#111";
+  popup.style.color = "#fff";
+  popup.style.padding = "10px 18px";
+  popup.style.borderRadius = "10px";
+  popup.style.zIndex = "9999";
+
+  document.body.appendChild(popup);
+
+  setTimeout(() => {
+    popup.remove();
+    window.location.href = "tel:" + phone;
+  }, 800);
+}
+
+</script>

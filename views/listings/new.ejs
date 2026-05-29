@@ -1,0 +1,171 @@
+<% layout("/layouts/boilerplate.ejs") %>
+
+<div class="container px-4 py-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8 col-xl-7">
+
+      <div class="pg-form-card">
+
+        <!-- Header -->
+        <div style="display:flex; align-items:center; gap:18px; margin-bottom:36px;">
+          <div class="brand-logo" style="width:52px; height:52px; font-size:1.2rem; flex-shrink:0;">
+            <i class="fa-solid fa-plus"></i>
+          </div>
+          <div>
+            <h2 class="pg-form-title">List Your PG</h2>
+            <p class="pg-form-subtitle">Share your space with thousands of potential residents</p>
+          </div>
+        </div>
+
+        <form
+          method="POST"
+          action="/listings"
+          novalidate
+          class="needs-validation"
+          enctype="multipart/form-data"
+        >
+          <!-- Title -->
+          <div class="mb-4">
+            <label for="title" class="form-label">PG / Hostel Name</label>
+            <input
+              name="listing[title]"
+              id="title"
+              placeholder="e.g. Shanti Nivas PG, Om Residency"
+              type="text"
+              class="form-control"
+              required
+            />
+            <div class="valid-feedback">Looks great!</div>
+            <div class="invalid-feedback">Please enter a title for your listing.</div>
+          </div>
+
+          <!-- Description -->
+          <div class="mb-4">
+            <label for="description" class="form-label">Description</label>
+            <textarea
+              name="listing[description]"
+              id="description"
+              class="form-control"
+              placeholder="Describe your PG — amenities, rules, who it's ideal for…"
+              required
+            ></textarea>
+            <div class="invalid-feedback">Please enter a description.</div>
+          </div>
+
+          <!-- Image Upload -->
+          <div class="mb-4">
+            <label class="form-label">Upload PG Image</label>
+            <input
+              name="listing[image]"
+              id="image"
+              type="file"
+              accept="image/*"
+              style="display:none;"
+            />
+            <label
+              for="image"
+              id="dropZone"
+              style="
+                display:block;
+                border: 2px dashed var(--cream-3);
+                border-radius: 14px;
+                padding: 32px;
+                text-align: center;
+                background: var(--cream-2);
+                cursor: pointer;
+                transition: all var(--tr);
+              "
+              onmouseover="this.style.borderColor='var(--brand)'; this.style.background='var(--brand-light)';"
+              onmouseout="this.style.borderColor='var(--cream-3)'; this.style.background='var(--cream-2)';"
+            >
+              <i class="fa-solid fa-cloud-arrow-up" style="font-size:2rem; color:var(--brand); margin-bottom:12px; display:block;"></i>
+              <p id="dropZoneText" style="font-size:0.88rem; color:var(--ink-mid); margin-bottom:6px; font-weight:500;">Click to browse or drag &amp; drop</p>
+              <p style="font-size:0.75rem; color:var(--ink-xsoft); margin:0;">JPG, PNG up to 10MB</p>
+            </label>
+          </div>
+
+          <!-- Price + Country -->
+          <div class="row g-3 mb-4">
+            <div class="col-md-5">
+              <label for="price" class="form-label">Monthly Rent (₹)</label>
+              <div style="position:relative;">
+                <span style="position:absolute; left:16px; top:50%; transform:translateY(-50%); color:var(--ink-soft); font-size:0.9rem; z-index:1;">₹</span>
+                <input
+                  name="listing[price]"
+                  id="price"
+                  placeholder="5000"
+                  type="number"
+                  class="form-control"
+                  style="padding-left:34px !important;"
+                  required
+                  min="0"
+                />
+              </div>
+              <div class="invalid-feedback">Please enter a valid price.</div>
+            </div>
+            <div class="col-md-7">
+              <label for="country" class="form-label">Country</label>
+              <input
+                name="listing[country]"
+                id="country"
+                placeholder="India"
+                type="text"
+                class="form-control"
+                required
+              />
+              <div class="invalid-feedback">Please enter a country.</div>
+            </div>
+          </div>
+           <div class="col-md-12 mb-3">
+  <label for="phone" class="form-label">Contact Number</label>
+  <input
+    name="listing[phone]"
+    id="phone"
+    placeholder="e.g. 93419xxxxx"
+    type="text"
+    class="form-control"
+  />
+</div>
+
+          <!-- Location -->
+          <div class="mb-4">
+            <label for="location" class="form-label">City / Location</label>
+            <div style="position:relative;">
+              <i class="fa-solid fa-location-dot" style="position:absolute; left:16px; top:50%; transform:translateY(-50%); color:var(--brand); font-size:0.875rem; z-index:1;"></i>
+              <input
+                name="listing[location]"
+                id="location"
+                placeholder="e.g. Ranchi, Jharkhand"
+                type="text"
+                class="form-control"
+                style="padding-left:40px !important;"
+                required
+              />
+            </div>
+            <div class="invalid-feedback">Please enter a location.</div>
+          </div>
+
+          <hr style="border-color:var(--cream-3); margin:30px 0;" />
+
+          <div class="d-flex gap-3 align-items-center flex-wrap">
+            <button class="btn add-btn" type="submit" style="min-width:170px;">
+              <i class="fa-solid fa-paper-plane me-2"></i>Publish Listing
+            </button>
+            <a href="/listings" style="color:var(--ink-soft); font-size:0.875rem; text-decoration:none; font-weight:500;">
+              Cancel
+            </a>
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+  // Show file name when selected
+  document.getElementById('image').addEventListener('change', function () {
+    const text = this.files[0] ? this.files[0].name : 'Click to browse or drag & drop';
+    document.getElementById('dropZoneText').textContent = text;
+  });
+</script>

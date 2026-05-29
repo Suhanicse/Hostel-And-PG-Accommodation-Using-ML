@@ -1,0 +1,78 @@
+<% layout("/layouts/boilerplate.ejs") %>
+
+<div class="container px-4" style="min-height:80vh; display:flex; align-items:center; justify-content:center; padding-top:40px; padding-bottom:40px;">
+  <div class="auth-card w-100">
+
+    <div class="auth-logo">
+      <i class="fa-solid fa-bed"></i>
+    </div>
+
+    <h1 class="auth-title">Welcome Back</h1>
+    <p class="auth-subtitle">Log in to manage your listings and reviews</p>
+
+    <form action="/login" method="POST" class="needs-validation" novalidate>
+
+      <div class="mb-3">
+        <label for="username" class="form-label">Username</label>
+        <input
+          name="username"
+          id="username"
+          type="text"
+          class="form-control"
+          placeholder="Enter your username"
+          required
+          autocomplete="username"
+        />
+        <div class="invalid-feedback">Please enter your username.</div>
+      </div>
+
+      <div class="mb-4">
+        <label for="password" class="form-label">Password</label>
+        <div style="position:relative;">
+          <input
+            name="password"
+            id="password"
+            type="password"
+            class="form-control"
+            placeholder="Enter your password"
+            required
+            autocomplete="current-password"
+            style="padding-right:46px !important;"
+          />
+          <button
+            type="button"
+            onclick="togglePwd('password', this)"
+            style="position:absolute; right:14px; top:50%; transform:translateY(-50%); background:none; border:none; color:var(--ink-soft); cursor:pointer; font-size:0.85rem;"
+            tabindex="-1"
+          >
+            <i class="fa-regular fa-eye"></i>
+          </button>
+        </div>
+        <div class="invalid-feedback">Please enter your password.</div>
+      </div>
+
+      <button type="submit" class="btn btn-primary-full">
+        <i class="fa-solid fa-arrow-right-to-bracket me-2"></i>Log In
+      </button>
+    </form>
+
+    <div class="auth-divider">or</div>
+
+    <div class="auth-footer">
+      Don't have an account?
+      <a href="/signup">Sign up for free</a>
+    </div>
+
+  </div>
+</div>
+
+<script>
+function togglePwd(id, btn) {
+  const inp = document.getElementById(id);
+  const isHidden = inp.type === 'password';
+  inp.type = isHidden ? 'text' : 'password';
+  btn.innerHTML = isHidden
+    ? '<i class="fa-regular fa-eye-slash"></i>'
+    : '<i class="fa-regular fa-eye"></i>';
+}
+</script>

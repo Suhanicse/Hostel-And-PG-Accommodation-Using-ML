@@ -1,0 +1,48 @@
+<% layout("/layouts/boilerplate.ejs") %>
+
+<div class="container px-4 py-5" style="min-height:70vh; display:flex; align-items:center; justify-content:center;">
+  <div style="text-align:center; max-width:500px;">
+
+    <!-- Big error code -->
+    <div style="
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(5rem, 14vw, 10rem);
+      font-weight: 400;
+      font-style: italic;
+      color: var(--cream-3);
+      line-height: 1;
+      margin-bottom: 12px;
+      letter-spacing: -0.05em;
+    ">
+      <%= err.statusCode || 500 %>
+    </div>
+
+    <h2 style="
+      font-family: 'Instrument Serif', serif;
+      font-size: 2.2rem;
+      font-weight: 400;
+      color: var(--ink);
+      margin-bottom: 14px;
+      letter-spacing: -0.02em;
+    ">
+      <%= err.statusCode === 404 ? "Page Not Found" : "Something Went Wrong" %>
+    </h2>
+
+    <p style="color:var(--ink-soft); font-size:0.95rem; margin-bottom:36px; line-height:1.75; max-width:380px; margin-left:auto; margin-right:auto;">
+      <%= err.message %>
+    </p>
+
+    <a href="/listings" class="btn add-btn" style="display:inline-flex; align-items:center; gap:10px;">
+      <i class="fa-solid fa-arrow-left"></i>
+      Back to Listings
+    </a>
+
+    <!-- Decorative line -->
+    <div style="margin-top:48px; display:flex; align-items:center; justify-content:center; gap:16px;">
+      <div style="width:40px; height:1px; background:var(--cream-3);"></div>
+      <i class="fa-solid fa-bed" style="color:var(--cream-3); font-size:1rem;"></i>
+      <div style="width:40px; height:1px; background:var(--cream-3);"></div>
+    </div>
+
+  </div>
+</div>

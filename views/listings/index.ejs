@@ -1,0 +1,288 @@
+<% layout("/layouts/boilerplate.ejs") %>
+
+<!-- ═══════════════════════════════════════
+     HERO SECTION
+═══════════════════════════════════════ -->
+<section class="hero-section">
+  <div class="hero-grain"></div>
+
+  <div class="container px-4 w-100">
+    <div class="row align-items-center">
+
+      <!-- Left content -->
+      <div class="col-lg-6 hero-content">
+
+        <div class="hero-eyebrow">
+          Trusted by 30 Residents Across India
+        </div>
+
+        <h1 class="hero-title">
+          Find Your<br/>
+          Perfect <em>Home</em><br/>
+          <span class="hero-outline-text">Away</span> From Home
+        </h1>
+
+        <p class="hero-subtitle">
+          Discover verified PG accommodations, hostels &amp; paying guest rooms across India's top cities — safe, affordable &amp; move-in ready.
+        </p>
+
+        <!-- Search Bar -->
+        <form class="hero-search-bar" action="/listings/search" method="GET">
+          <div class="hero-search-field" style="flex:1.5;">
+            <i class="fa-solid fa-location-dot"></i>
+            <div style="flex:1;">
+              <label for="heroLocation">Location</label>
+              <input
+                id="heroLocation"
+                name="location"
+                type="text"
+                placeholder="City, area or landmark…"
+                autocomplete="off"
+              />
+            </div>
+          </div>
+          <div class="price-filter">
+  <label>Budget Range</label>
+
+  <div style="display:flex; gap:6px;">
+   <input type="number" name="minPrice" placeholder="Min ₹" min="0" />
+<input type="number" name="maxPrice" placeholder="Max ₹" min="0" />
+  </div>
+</div>
+          <button type="submit" class="hero-search-submit" aria-label="Search">
+            <i class="fa-solid fa-magnifying-glass"></i>
+          </button>
+        </form>
+
+        <!-- Stats -->
+        <div class="hero-stats">
+          <div class="hero-stat">
+            <div class="hero-stat-num">50<span>+</span></div>
+            <div class="hero-stat-label">Verified PGs</div>
+          </div>
+          <div class="hero-stat-divider"></div>
+          <div class="hero-stat">
+            <div class="hero-stat-num">50<span>+</span></div>
+            <div class="hero-stat-label">Cities</div>
+          </div>
+          <div class="hero-stat-divider"></div>
+          <div class="hero-stat">
+            <div class="hero-stat-num">4.8<span>★</span></div>
+            <div class="hero-stat-label">Avg. Rating</div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Right visual (desktop only) -->
+      <div class="col-lg-6 d-none d-lg-block hero-visual">
+        <div style="position:relative; padding: 40px 60px 40px 20px;">
+
+          <!-- Floating verified badge -->
+          <div class="hero-float-badge">
+            <div class="hero-float-badge-num">100%</div>
+            <div class="hero-float-badge-label">Verified</div>
+          </div>
+
+          <!-- Main card -->
+          <div class="hero-img-card">
+            <img
+              src="https://images.unsplash.com/photo-1555854877-bab0e564b8d5?w=700&q=85"
+              alt="Featured PG"
+            />
+            <div class="hero-img-badge">
+              <div style="display:flex; align-items:center; justify-content:space-between;">
+                <div>
+                  <div class="hero-img-badge-title">Sunrise PG, Ranchi</div>
+                  <div class="hero-img-badge-sub">
+                    <i class="fa-solid fa-location-dot" style="color:var(--brand); font-size:0.7rem;"></i>
+                    Ranchi, Jharkhand
+                    <span style="background:rgba(232,87,42,0.2); color:var(--brand); border-radius:50px; padding:2px 8px; font-size:0.62rem; font-weight:600;">Verified</span>
+                  </div>
+                </div>
+                <div class="hero-img-price">₹6,500<span style="font-size:0.65rem; font-weight:400; color:rgba(255,255,255,0.5)">/mo</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Scroll indicator -->
+  <div class="hero-scroll-indicator">
+    <div class="hero-scroll-line"></div>
+    <span style="font-family:'Syne',sans-serif; font-size:0.6rem;">scroll</span>
+  </div>
+
+</section>
+
+<!-- ═══════════════════════════════════════
+     FILTER BAR
+═══════════════════════════════════════ -->
+<section class="filter-section">
+  <div class="filter-bar">
+    <a href="/listings" class="filter-chip active">
+      <i class="fa-solid fa-border-all"></i> All
+    </a>
+    <a href="/listings/search?location=Ranchi" class="filter-chip">
+      <i class="fa-solid fa-fire"></i> Ranchi
+    </a>
+    <a href="/listings/search?location=Delhi" class="filter-chip">
+      <i class="fa-solid fa-city"></i> Delhi
+    </a>
+    <a href="/listings/search?location=Mumbai" class="filter-chip">
+      <i class="fa-solid fa-building"></i> Mumbai
+    </a>
+    <a href="/listings/search?location=Bangalore" class="filter-chip">
+      <i class="fa-solid fa-laptop-code"></i> Bangalore
+    </a>
+    <a href="/listings/search?location=Pune" class="filter-chip">
+      <i class="fa-solid fa-graduation-cap"></i> Pune
+    </a>
+    <a href="/listings/search?location=Hyderabad" class="filter-chip">
+      <i class="fa-solid fa-star"></i> Hyderabad
+    </a>
+    <a href="/listings/search?location=Chennai" class="filter-chip">
+      <i class="fa-solid fa-sun"></i> Chennai
+    </a>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     LISTINGS GRID
+═══════════════════════════════════════ -->
+<div class="container px-4 pb-5">
+
+  <div class="d-flex align-items-center justify-content-between mt-5 mb-1 flex-wrap gap-3">
+    <div>
+      <p class="section-eyebrow">Explore All</p>
+      <h2 class="section-title">Available PG Accommodations</h2>
+    </div>
+    <div class="d-flex align-items-center gap-3 flex-wrap">
+      <div class="tax-toggle-bar" id="taxToggle">
+        <div class="form-check-reverse form-switch mb-0">
+          <input class="form-check-input" type="checkbox" role="switch" id="taxSwitch" />
+          <label class="form-check-label ms-2" for="taxSwitch" style="cursor:pointer; font-size:0.78rem; color:inherit;">
+            Show with GST
+          </label>
+        </div>
+      </div>
+      <a href="/listings/new" class="btn add-btn">
+        <i class="fa-solid fa-plus me-2"></i>Add Your PG
+      </a>
+    </div>
+  </div>
+
+  <% if(allListings.length === 0) { %>
+    <div class="no-results">
+      <i class="fa-regular fa-face-sad-cry"></i>
+      <h3>No listings found</h3>
+      <p>Try a different location or <a href="/listings" style="color:var(--brand);">view all listings</a></p>
+    </div>
+  <% } else { %>
+    <div class="listings-grid">
+      <% for(let listing of allListings) { %>
+        <div class="listing-card-wrapper" onclick="window.location='/listings/<%= listing._id %>'">
+          <div class="listing-card">
+            <div class="card-img-wrapper">
+              <img
+                src="<%= listing.image.url %>"
+                class="card-img-top"
+                alt="<%= listing.title %>"
+                loading="lazy"
+              />
+              <span class="card-badge">
+                <i class="fa-solid fa-shield-halved"></i>Verified
+              </span>
+              <button
+                class="card-wish-btn"
+                onclick="toggleLike(event, '<%= listing._id %>', this)"
+                aria-label="Wishlist"
+              >
+                <i class="fa-regular fa-heart"></i>
+              </button>
+              <span class="like-count"><%= listing.likes ? listing.likes.length : 0 %></span>
+            </div>
+            <div class="card-body">
+              <div class="card-location">
+                <i class="fa-solid fa-location-dot"></i>
+                <%= listing.location %>, <%= listing.country %>
+              </div>
+              <div class="card-title"><%= listing.title %></div>
+              <div class="card-meta">
+                <div class="card-price">
+                  <span class="card-price-amount">
+                    &#8377;<%= listing.price.toLocaleString("en-IN") %>
+                    <span class="tax-info">+GST</span>
+                  </span>
+                  <span class="card-price-period">per month</span>
+                </div>
+                <div class="card-rating">
+                  <i class="fa-solid fa-star"></i>
+                  <span>
+                    <% if(listing.reviews && listing.reviews.length > 0) { %>
+                     <%= (listing.reviews.reduce((sum, r) => sum + r.rating, 0) / listing.reviews.length).toFixed(1) %>
+                    <% } else { %>
+                       0.0
+                    <% } %>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% } %>
+    </div>
+  <% } %>
+
+</div>
+
+<script>
+  // Tax toggle
+  document.getElementById('taxSwitch').addEventListener('change', function () {
+    document.querySelectorAll('.tax-info').forEach(el => {
+      el.style.display = this.checked ? 'inline' : 'none';
+    });
+  });
+
+  // Filter chips
+  document.querySelectorAll('.filter-chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+    });
+  });
+
+ async function toggleLike(event, listingId, btn) {
+  event.preventDefault();
+  event.stopPropagation();
+
+  try {
+    const res = await fetch(`/listings/${listingId}/like`, {
+      method: "POST"
+    });
+
+    if (res.redirected) {
+      alert("Please login first ❤️");
+      window.location.href = "/login";
+      return;
+    }
+
+    const data = await res.json();
+
+    btn.innerHTML = data.liked
+      ? '<i class="fa-solid fa-heart" style="color:red"></i>'
+      : '<i class="fa-regular fa-heart"></i>';
+
+    const countEl = btn.parentElement.querySelector(".like-count");
+    if (countEl) {
+      countEl.innerText = data.likesCount;
+    }
+
+  } catch (err) {
+    console.log(err);
+  }
+}
+</script>

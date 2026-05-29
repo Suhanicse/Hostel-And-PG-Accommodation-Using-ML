@@ -1,0 +1,21 @@
+<%# flash.ejs — success & error flash messages %>
+
+<% if(success && success.length) { %>
+  <div class="container px-4 pt-3">
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+      <i class="fa-solid fa-circle-check" style="color:var(--success);"></i>
+      <span><%= success %></span>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+  </div>
+<% } %>
+
+<% if(error && error.length) { %>
+  <div class="container px-4 pt-3">
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+      <i class="fa-solid fa-triangle-exclamation" style="color:var(--danger);"></i>
+      <span><%= error %></span>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+  </div>
+<% } %>
